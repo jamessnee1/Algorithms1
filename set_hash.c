@@ -25,16 +25,31 @@ struct set {
     
 };
 
+/*hash function*/
+int hash(set_t *set, int h){
+    
+    unsigned int hash_val;
+    
+    hash_val = 0;
+    
+    /*for each element in the table, we multiply hash by 32 and minus hashval*/
+    /*bit shifting and subtraction are more cost effective than multiplication*/
+    hash_val = h + (hash_val << 5) - hash_val;
+    /*return the hash value mod the size so it will fit in range*/
+    return hash_val % set->size;
+    
+}
+
 set_t *set_create(void)
 {
-    int size = 10;
+    int size = 1;
     int i = 0;
     
     if (size < 1){
         return NULL;
     }
 	set_t *new_set = safe_malloc(sizeof(set_t));
-    /*We need to specify a size for hash table, todo*/
+    /*We need to specify a size for hash table*/
     new_set->table = safe_malloc(sizeof(struct list_t) * size);
     
     /*initialise elements of table*/
@@ -80,7 +95,6 @@ int set_insert(set_t *set, int new_val)
 {
     int find_duplicate = 0;
 	struct list_t *new;
-    struct list_t *current;
     /*hash the new value*/
     unsigned int hash_val = hash(set, new_val);
     /*allocate memory for new*/
@@ -100,7 +114,23 @@ int set_insert(set_t *set, int new_val)
 
 int set_delete(set_t *set, int del_val)
 {
+    struct list_t *list, *temp;
+    /*hash the delete value*/
+    unsigned int hash_val = hash(set, del_val);
     
+    
+    /*iterate through the list with hash values*/
+    for (list = set->table[hash_val]; list != NULL; list = list->next){
+    
+        if (list->data == del_val){
+            /*found it to delete*/
+            temp = list;
+            list = list->next;
+            free(temp);
+            return 1;
+        }
+        
+    }
 	return 0;
 }
 
@@ -129,18 +159,4 @@ void set_print(set_t *set)
 	/* optional, may help with testing */
 }
 
-/*hash function*/
-int hash(set_t *set, int h){
-    
-    unsigned int hash_val;
-    
-    hash_val = 0;
-    
-    /*for each element in the table, we multiply hash by 32 and minus hashval*/
-    /*bit shifting and subtraction are more cost effective than multiplication*/
-    hash_val = h + (hash_val << 5) - hash_val;
-    /*return the hash value mod the size so it will fit in range*/
-    return hash_val % set->size;
-    
-}
 
