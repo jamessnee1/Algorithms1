@@ -35,32 +35,7 @@ set_t *set_create(void)
 
 void set_destroy(set_t *set)
 {
-    set_t *temp;
-    struct bst_node *temp_node;
-    
-    temp = set;
-    temp_node = temp->parent;
-    
-    while (temp_node != NULL){
-    
-        if (temp_node->right != NULL){
-        
-            temp_node = temp_node->right;
-            set_destroy(temp);
-            temp = NULL;
-            
-        }
-        if (temp_node->left != NULL){
-        
-            temp_node = temp_node->left;
-            set_destroy(temp);
-            temp = NULL;
-
-        
-        }
-    
-    }
-    
+    /*todo*/
 	free(set);
 	return;	
 }
