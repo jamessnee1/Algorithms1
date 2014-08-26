@@ -34,7 +34,7 @@ int hash(set_t *set, int h){
     
     /*for each element in the table, we multiply hash by 32 and minus hashval*/
     /*bit shifting and subtraction are more cost effective than multiplication*/
-    hash_val = h + (hash_val << 5) - hash_val;
+    hash_val = h + (hash_val << 6) - hash_val;
     /*return the hash value mod the size so it will fit in range*/
     return hash_val % set->size;
     
@@ -45,9 +45,6 @@ set_t *set_create(void)
     int size = 1;
     int i = 0;
     
-    if (size < 1){
-        return NULL;
-    }
 	set_t *new_set = safe_malloc(sizeof(set_t));
     /*We need to specify a size for hash table*/
     new_set->table = safe_malloc(sizeof(struct list_t) * size);

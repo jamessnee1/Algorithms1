@@ -68,39 +68,30 @@ int set_delete(set_t *set, int del_val)
 	set_t *temp;
     temp = set;
     
-    int i;
-    int flag = 1;
-    /*create temp array with size of current array minus one*/
-    int *temp_array = safe_malloc((temp->memory_used - 1) * sizeof(int));
+    int i, j;
     
+    /*Go through the array*/
     for (i = 0; i < temp->memory_used; i++){
         
-        /*put every element before the delete value into new array*/
-        temp_array[i] = temp->array[i];
-    
         if (temp->array[i] == del_val){
-        
-            /*we have found the delete value, so we simply skip over it*/
-            i++;
-            /*return temp->array[i];*/
-        
-        }else {
-            flag = 0;
+            /*if we find delete value, go through array again*/
+            for (j = 0; j < temp->memory_used; j++){
+                /*shift elements back by one*/
+                temp->array[j] = temp->array[j+1];
+            
+            }
+            /*decrement memory used*/
+            temp->memory_used--;
+            return 1;
+            
         }
         
-    
     }
     
-    /*set our shortened array into the set array and free existing one*/
-    free(temp->array);
-    temp->array = temp_array;
     
-    
-    if (flag == 0){
-        return 0;
-    }
-    return 1;
+	return 0;	
 }
+
 
 int set_search(set_t *set, int search_val)
 {
@@ -113,7 +104,7 @@ int set_search(set_t *set, int search_val)
     
         if (temp->array[i] == search_val){
         
-            return temp->array[i];
+            return 1;
         
         }
     
@@ -125,7 +116,12 @@ int set_search(set_t *set, int search_val)
 
 void set_print(set_t *set)
 {
-    set = NULL;
-	/* optional, may help with testing */
+    int i;
+    for (i = 0; i < set->memory_used; i++){
+        printf("%d\n", set->array[i]);
+    }
+	
 }
+
+
 
