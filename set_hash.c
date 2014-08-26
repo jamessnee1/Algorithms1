@@ -152,8 +152,8 @@ int set_search(set_t *set, int search_val)
 
 void set_print(set_t *set)
 {
-    set = NULL;
-	/* optional, may help with testing */
+    
 }
+
 
 
