@@ -117,6 +117,8 @@ int set_insert(set_t *set, int new_val)
             new->data = new_val;
             new->left = NULL;
             new->right = NULL;
+            /*update previous correctly*/
+            previous = temp;
             (*temp)->left = new;
             printf("%i inserted into left. Previous is %i\n", (*temp)->left->data, (*previous)->data);
             return 1;
@@ -195,9 +197,14 @@ int set_delete(set_t *set, int del_val)
                 
                 /*parent special case*/
                 if ((*previous) == *node){
-                    printf("Parent special case - left node not null\n");
+                    printf("Parent special case - left node not null. prev is %i\n", (*previous)->data);
                     (*node)->data = temp->data;
-                    (*node)->left = NULL;
+                    /*temp left needs to link back to previous left*/
+                    if ((*node)->left != NULL){
+                        (*node)->left = temp->left;
+                    }
+                    printf("Deleted temp - %i\n", temp->data);
+                    temp = NULL;
                     free(temp);
                     return 1;
                 }
@@ -225,9 +232,14 @@ int set_delete(set_t *set, int del_val)
                 
                 /*parent special case*/
                 if ((*previous) == *node){
-                    printf("Parent special case - right node not null\n");
+                    printf("Parent special case - right node not null. prev is %i\n", (*previous)->data);
                     (*node)->data = temp->data;
-                    (*node)->right = NULL;
+                    /*temp left needs to link back to previous left*/
+                    if ((*node)->right != NULL){
+                        (*node)->right = temp->right;
+                    }
+                    printf("Deleted temp - %i\n", temp->data);
+                    temp = NULL;
                     free(temp);
                     return 1;
                     
