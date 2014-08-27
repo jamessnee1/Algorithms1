@@ -112,7 +112,7 @@ int set_insert(set_t *set, int new_val)
                     return 0;
                 }
             }
-            
+        
             struct bst_node *new = safe_malloc(sizeof(struct bst_node));
             new->data = new_val;
             new->left = NULL;
