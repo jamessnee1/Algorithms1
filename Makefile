@@ -29,7 +29,7 @@ OBJ_HT := $(SRC_HT:.c=.o)
 # and LDFLAGS for the "-lm" option if you are using the math library.
 CC = gcc
 #CFLAGS = -W -Wall -ansi -O3 -D_XOPEN_SOURCE=500
-CFLAGS = -W -Wall -ansi -g -O0 -D_XOPEN_SOURCE=500
+CFLAGS = -W -Wall -ansi -g -pg -O0 -D_XOPEN_SOURCE=500
 LDFLAGS = -lm
 
 all : $(TARGET_LL) $(TARGET_AR) $(TARGET_BT) $(TARGET_HT)

@@ -58,7 +58,7 @@ int set_insert(set_t *set, int new_val)
 {
 
 	/* create new temp pointer to set */
-    struct bst_node **temp;
+    struct bst_node **temp, **previous;
     temp = &set->parent;
     
 	
@@ -68,6 +68,7 @@ int set_insert(set_t *set, int new_val)
         new->data = new_val;
         new->left = NULL;
         new->right = NULL;
+        previous = temp;
 		(*temp) = new;
         printf("%i inserted into parent\n", (*temp)->data);
 		return 1;
@@ -76,11 +77,11 @@ int set_insert(set_t *set, int new_val)
         /*check for root duplicate found*/
         return 0;
     }
-    /*if our data is smaller than nodes data, insert right*/
+    /*if data at current node is smaller than input data, insert right*/
     else if ((*temp)->data < new_val){
             
             while ((*temp)->right != NULL && (*temp)->data < new_val){
-
+                previous = temp;
                 temp = &(*temp)->right;
                 
                 if (new_val == (*temp)->data){
@@ -93,15 +94,17 @@ int set_insert(set_t *set, int new_val)
             new->data = new_val;
             new->left = NULL;
             new->right = NULL;
+            /*update previous correctly*/
+            previous = temp;
             (*temp)->right = new;
-            printf("%i inserted into right\n", (*temp)->right->data);
+            printf("%i inserted into right. Previous is %i\n", (*temp)->right->data, (*previous)->data);
             return 1;
         }
     
     else{
-            /*data is larger than node's data, insert left*/
+            /*data at current node is larger than input data, insert left*/
             while ((*temp)->left != NULL && (*temp)->data > new_val){
-                
+                previous = temp;
                 temp = &(*temp)->left;
                 
                 if ((*temp)->data == new_val){
@@ -115,7 +118,7 @@ int set_insert(set_t *set, int new_val)
             new->left = NULL;
             new->right = NULL;
             (*temp)->left = new;
-            printf("%i inserted into left\n", (*temp)->left->data);
+            printf("%i inserted into left. Previous is %i\n", (*temp)->left->data, (*previous)->data);
             return 1;
         
         }
@@ -138,8 +141,8 @@ int set_delete(set_t *set, int del_val)
     
         while ((*node) != NULL){
             
-            /*parent special case*/
             previous = node;
+            
             /* if our data is at node, break */
             if ((*node)->data == del_val){
                 found = 1;
@@ -149,11 +152,13 @@ int set_delete(set_t *set, int del_val)
                 
                 /*left traversal*/
                 if ((*node)->data > del_val){
+                    previous = node;
                     node = &(*node)->left;
                     
                 }
                 /*right traversal*/
                 else {
+                    previous = node;
                     node = &(*node)->right;
                     
                 }
@@ -177,7 +182,7 @@ int set_delete(set_t *set, int del_val)
                     
                 }
                 
-                printf("Deleted node %i in case 1: no left or right children\n", (*node)->data);
+                printf("Deleted node in case 1: no left or right children. prev is %i\n", (*previous)->data);
                 free(*node);
                 return 1;
 
@@ -207,7 +212,7 @@ int set_delete(set_t *set, int del_val)
                 
                     (*previous)->right = (*node)->right;
                 }
-                printf("Deleted node %i in case 2: one child-left\n", (*node)->data);
+                printf("Deleted node in case 2: one child-left. prev is %i\n", (*previous)->data);
                 free(*node);
                 return 1;
                 
@@ -237,7 +242,7 @@ int set_delete(set_t *set, int del_val)
                     
                     (*previous)->right = (*node)->right;
                 }
-                printf("Deleted node %i in case 2: one child-right\n", (*node)->data);
+                printf("Deleted node in case 2: one child-right. prev is %i\n", (*previous)->data);
                 free(*node);
                 return 1;
                 
@@ -247,19 +252,19 @@ int set_delete(set_t *set, int del_val)
             if ((*node)->right != NULL && (*node)->left != NULL){
                 
                 temp = (*node)->right;
-                /*if temp has no children*/
+                /*if bottom of bst has no children*/
                 if (temp->right == NULL && temp->left == NULL){
                 
                     /*set the root data to the rights data*/
                     (*node)->data = temp->data;
                     (*node)->right = NULL;
-                    printf("Deleted node %i in case 3: both null\n", (*node)->data);
+                    printf("Deleted node in case 3: both null. prev is %i\n", (*previous)->data);
                     free(temp);
                     return 1;
                     
                 }
                 /*if temp has left child*/
-                else if (temp->left != NULL) {
+                else if (temp->left != NULL && temp->right == NULL) {
                     
                     /*traverse left*/
                     while(temp->left != NULL){
@@ -272,7 +277,7 @@ int set_delete(set_t *set, int del_val)
                     /*set the root data to the left child data*/
                     (*node)->data = temp->data;
                     (*previous)->left = NULL;
-                    printf("Deleted node %i in case 3: left not null\n", temp->data);
+                    printf("Deleted node in case 3: left not null, right null. prev is %i\n", (*previous)->data);
                     free(temp);
                     return 1;
                 
@@ -285,7 +290,7 @@ int set_delete(set_t *set, int del_val)
                     (*node)->data = temp->data;
                     /*set our root next right to temp right*/
                     (*node)->right = temp->right;
-                    printf("Deleted node %i in case 3: right not null, left null\n", temp->data);
+                    printf("Deleted node in case 3: right not null, left null. prev is %i\n", (*previous)->data);
                     free(temp);
                     return 1;
                 
