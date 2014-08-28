@@ -8,10 +8,9 @@
 
 /* Begin PBXFileReference section */
 		5953E69519A4C81300A59E46 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		595A783B19AD8A0A0024B238 /* simplebtree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = simplebtree.c; sourceTree = "<group>"; };
+		595A783B19AD8A0A0024B238 /* set_btree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = set_btree.c; sourceTree = "<group>"; };
 		59C870B819920B0C00EF8869 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		59C870B919920B0C00EF8869 /* set_array.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = set_array.c; sourceTree = "<group>"; };
-		59C870BA19920B0C00EF8869 /* set_btree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = set_btree.c; sourceTree = "<group>"; };
 		59C870BB19920B0C00EF8869 /* set_hash.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = set_hash.c; sourceTree = "<group>"; };
 		59C870BC19920B0C00EF8869 /* set_llist.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = set_llist.c; sourceTree = "<group>"; };
 		59C870BD19920B0C00EF8869 /* set.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = set.h; sourceTree = "<group>"; };
@@ -25,8 +24,7 @@
 			children = (
 				59C870B819920B0C00EF8869 /* main.c */,
 				59C870B919920B0C00EF8869 /* set_array.c */,
-				59C870BA19920B0C00EF8869 /* set_btree.c */,
-				595A783B19AD8A0A0024B238 /* simplebtree.c */,
+				595A783B19AD8A0A0024B238 /* set_btree.c */,
 				59C870BB19920B0C00EF8869 /* set_hash.c */,
 				5953E69519A4C81300A59E46 /* Makefile */,
 				59C870BC19920B0C00EF8869 /* set_llist.c */,
