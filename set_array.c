@@ -77,9 +77,10 @@ int set_delete(set_t *set, int del_val)
     int i, j;
     
     for (i = 0; i < set->memory_used; i++){
-        /*if our value is found, shift everything back by one*/
+        
         if (set->array[i] == del_val){
             
+            /*if our value is found shift everything back by one*/
             for (j = i; j < set->memory_used; j++){
                 set->array[j] =  set->array[j+1];
             
