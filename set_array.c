@@ -47,18 +47,18 @@ void set_destroy(set_t *set)
 
 int set_insert(set_t *set, int new_val)
 {
-    int i;
+    int duplicate_found = 0;
     
     /*If we have no more memory in the array, allocate more*/
     if (set->memory_used == set->size){
         set->size *= 2;
         set->array = (int *)safe_realloc(set->array, set->size * sizeof(int));
     }
-    /*search for duplicates*/
-    for (i = 0; i < set->memory_used; i++){
-        if (set->array[i] == new_val){
-            return 0;
-        }
+    
+    /*search for duplicates using search function*/
+    duplicate_found = set_search(set, new_val);
+    if (duplicate_found == 1){
+        return 0;
     }
     
     /*allocate more memory for one int*/
@@ -74,41 +74,33 @@ int set_insert(set_t *set, int new_val)
 
 int set_delete(set_t *set, int del_val)
 {
-	set_t *temp;
-    temp = set;
-    
     int i, j;
     
-    /*Go through the array*/
-    for (i = 0; i < temp->memory_used; i++){
-        
-        if (temp->array[i] == del_val){
-            /*if we find delete value, go through array again*/
-            for (j = 0; j < temp->memory_used; j++){
-                /*shift elements back by one*/
-                temp->array[i] = temp->array[j+1];
+    for (i = 0; i < set->memory_used; i++){
+        /*if our value is found, shift everything back by one*/
+        if (set->array[i] == del_val){
+            
+            for (j = i; j < set->memory_used; j++){
+                set->array[j] =  set->array[j+1];
             
             }
+            
             /*decrement memory used*/
-            temp->memory_used--;
-            
-
-            /*sort the array*/
-            sort(set->array, set->memory_used);
-            
+            set->memory_used--;
             return 1;
-            
-        }
         
+        }
+    
     }
-    
-    
-	return 0;	
+    return 0;
 }
+
+
 
 
 int set_search(set_t *set, int search_val)
 {
+    /*search through the array. Insert and delete uses this function*/
 	set_t *temp;
     temp = set;
     
