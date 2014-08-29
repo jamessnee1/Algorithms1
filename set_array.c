@@ -20,6 +20,9 @@ struct set {
     int size;
 };
 
+/*function prototype for sort*/
+void sort(int *array, int array_size);
+
 set_t *set_create(void)
 {
 	set_t *new_set;
@@ -27,7 +30,7 @@ set_t *set_create(void)
     /*malloc space enough for one int*/
 	new_set->array = (int *)safe_malloc(1 * sizeof(int));
     new_set->memory_used = 0;
-    new_set->size = sizeof(set_t);
+    new_set->size = sizeof(new_set->array);
 	return new_set;
 	
 }
@@ -57,9 +60,15 @@ int set_insert(set_t *set, int new_val)
             return 0;
         }
     }
+    
+    /*allocate more memory for one int*/
+    set->size += 4;
+    set->array = (int *)safe_realloc(set->array, set->size * sizeof(int));
     set->array[set->memory_used++] = new_val;
-        
-   
+    
+    /*sort the array*/
+    sort(set->array, set->memory_used);
+    
 	return 1;
 }
 
@@ -77,11 +86,16 @@ int set_delete(set_t *set, int del_val)
             /*if we find delete value, go through array again*/
             for (j = 0; j < temp->memory_used; j++){
                 /*shift elements back by one*/
-                temp->array[j] = temp->array[j+1];
+                temp->array[i] = temp->array[j+1];
             
             }
             /*decrement memory used*/
             temp->memory_used--;
+            
+
+            /*sort the array*/
+            sort(set->array, set->memory_used);
+            
             return 1;
             
         }
@@ -121,6 +135,32 @@ void set_print(set_t *set)
         printf("%d\n", set->array[i]);
     }
 	
+}
+
+void sort(int *array, int array_size){
+    
+    /*implements bubble sort on our array for sorting*/
+    /*when insertion and deletion happens to preserve order*/
+    int i, j, temp;
+    
+    for (i = 0; i < array_size - 1; i++){
+        
+        for (j = 0; j < array_size - 1 - i; j++){
+            
+            if (array[j] > array[j+1]){
+                
+                temp = array[j+1];
+                array[j+1] = array[j];
+                array[j] = temp;
+            
+            }
+            
+        }
+    
+    
+    }
+
+
 }
 
 
