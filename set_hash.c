@@ -94,15 +94,15 @@ int set_insert(set_t *set, int new_val)
 	struct list_t *new;
     /*hash the new value*/
     unsigned int hash_val = hash(set, new_val);
-    /*allocate memory for new*/
-    new = safe_malloc(sizeof(struct list_t));
     
     /*check if new_val already exists*/
     find_duplicate = set_search(set, new_val);
     if (find_duplicate == 1){
         return 0;
     }
-    /*otherwise, insert into list*/
+    /*allocate memory for new*/
+    new = safe_malloc(sizeof(struct list_t));
+    /*insert into list*/
     new->data = new_val;
     new->next = set->table[hash_val];
     set->table[hash_val] = new;
@@ -111,14 +111,17 @@ int set_insert(set_t *set, int new_val)
 
 int set_delete(set_t *set, int del_val)
 {
-    struct list_t *list, *temp;
+    struct list_t *list, *previous, *temp;
     /*hash the delete value*/
     unsigned int hash_val = hash(set, del_val);
     
+    int found = 0;
+    
+    found = set_search(set, del_val);
     
     /*iterate through the list with hash values*/
     for (list = set->table[hash_val]; list != NULL; list = list->next){
-    
+        
         if (list->data == del_val){
             /*found it to delete*/
             temp = list;
@@ -152,6 +155,13 @@ int set_search(set_t *set, int search_val)
 
 void set_print(set_t *set)
 {
+    struct list_t *list;
+    for (list = set->table[0]; list != NULL; list = list->next){
+    
+        printf("%i\n", list->data);
+    
+    }
+    
     
 }
 
