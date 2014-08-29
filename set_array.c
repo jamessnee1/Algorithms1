@@ -137,15 +137,18 @@ void set_print(set_t *set)
 	
 }
 
-void sort(int *array, int array_size){
+void sort(int *array, int array_size)
+{
     
     /*implements bubble sort on our array for sorting*/
     /*when insertion and deletion happens to preserve order*/
+    /*Implementation from: http://stackoverflow.com/questions/3893937/c-array-sorting-tips*/
+    
     int i, j, temp;
     
     for (i = 0; i < array_size - 1; i++){
         
-        for (j = 0; j < array_size - 1 - i; j++){
+        for (j = 0; j < (array_size - 1) - i; j++){
             
             if (array[j] > array[j+1]){
                 
